@@ -1,0 +1,3016 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 26,
+    "identityHash": "1ba30b8e70003308502522fcecbf03b0",
+    "entities": [
+      {
+        "tableName": "usuarios",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `nombre` TEXT NOT NULL, `correo` TEXT NOT NULL, `claveHash` TEXT NOT NULL, `claveSal` TEXT NOT NULL, `rol` TEXT NOT NULL, `activo` INTEGER NOT NULL, `rut` TEXT, `sucursalResponsableId` INTEGER DEFAULT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "correo",
+            "columnName": "correo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "claveHash",
+            "columnName": "claveHash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "claveSal",
+            "columnName": "claveSal",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rol",
+            "columnName": "rol",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activo",
+            "columnName": "activo",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rut",
+            "columnName": "rut",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "sucursalResponsableId",
+            "columnName": "sucursalResponsableId",
+            "affinity": "INTEGER",
+            "defaultValue": "NULL"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_usuarios_correo",
+            "unique": true,
+            "columnNames": [
+              "correo"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_usuarios_correo` ON `${TABLE_NAME}` (`correo`)"
+          },
+          {
+            "name": "index_usuarios_rut",
+            "unique": true,
+            "columnNames": [
+              "rut"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_usuarios_rut` ON `${TABLE_NAME}` (`rut`)"
+          }
+        ]
+      },
+      {
+        "tableName": "sucursales",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `nombre` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "bodegas",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `sucursalId` INTEGER NOT NULL, `nombre` TEXT NOT NULL, `activa` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activa",
+            "columnName": "activa",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "usuario_bodega",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`usuarioId` INTEGER NOT NULL, `bodegaId` INTEGER NOT NULL, PRIMARY KEY(`usuarioId`, `bodegaId`))",
+        "fields": [
+          {
+            "fieldPath": "usuarioId",
+            "columnName": "usuarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaId",
+            "columnName": "bodegaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "usuarioId",
+            "bodegaId"
+          ]
+        }
+      },
+      {
+        "tableName": "posiciones",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `bodegaId` INTEGER NOT NULL, `codigo` TEXT NOT NULL, `nombre` TEXT NOT NULL DEFAULT '', `tipo` TEXT NOT NULL DEFAULT 'ESTANTERIA', `padreId` INTEGER, `activa` INTEGER NOT NULL DEFAULT 1, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaId",
+            "columnName": "bodegaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "codigo",
+            "columnName": "codigo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "'ESTANTERIA'"
+          },
+          {
+            "fieldPath": "padreId",
+            "columnName": "padreId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "activa",
+            "columnName": "activa",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "1"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "productos",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `codigo` TEXT NOT NULL, `nombre` TEXT NOT NULL, `categoria` TEXT NOT NULL, `minimo` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "codigo",
+            "columnName": "codigo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoria",
+            "columnName": "categoria",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "minimo",
+            "columnName": "minimo",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_productos_codigo",
+            "unique": true,
+            "columnNames": [
+              "codigo"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_productos_codigo` ON `${TABLE_NAME}` (`codigo`)"
+          }
+        ]
+      },
+      {
+        "tableName": "existencias",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `productoId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `cantidad` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_existencias_productoId_posicionId",
+            "unique": true,
+            "columnNames": [
+              "productoId",
+              "posicionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_existencias_productoId_posicionId` ON `${TABLE_NAME}` (`productoId`, `posicionId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "movimientos",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `usuarioId` INTEGER NOT NULL, `bodegaId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `posicionOrigen` INTEGER NOT NULL, `posicionDestino` INTEGER NOT NULL, `cantidad` INTEGER NOT NULL, `fecha` INTEGER NOT NULL, `tipo` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usuarioId",
+            "columnName": "usuarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaId",
+            "columnName": "bodegaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionOrigen",
+            "columnName": "posicionOrigen",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionDestino",
+            "columnName": "posicionDestino",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "despachos",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `bodegaOrigenId` INTEGER NOT NULL, `bodegaDestinoId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `posicionOrigenId` INTEGER NOT NULL, `cantidad` INTEGER NOT NULL, `preparadorId` INTEGER NOT NULL, `estado` TEXT NOT NULL, `fecha` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaOrigenId",
+            "columnName": "bodegaOrigenId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaDestinoId",
+            "columnName": "bodegaDestinoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionOrigenId",
+            "columnName": "posicionOrigenId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "preparadorId",
+            "columnName": "preparadorId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estado",
+            "columnName": "estado",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "conteos",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `bodegaId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `asignadoA` INTEGER NOT NULL, `cantidadContada` INTEGER, `estado` TEXT NOT NULL, `fecha` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaId",
+            "columnName": "bodegaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "asignadoA",
+            "columnName": "asignadoA",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidadContada",
+            "columnName": "cantidadContada",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "estado",
+            "columnName": "estado",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "entregas",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `bodegaId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `esperada` INTEGER NOT NULL, `recibida` INTEGER NOT NULL, `estado` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaId",
+            "columnName": "bodegaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "esperada",
+            "columnName": "esperada",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "recibida",
+            "columnName": "recibida",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estado",
+            "columnName": "estado",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "cajas",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `codigo` TEXT NOT NULL, `tipo` TEXT NOT NULL, `origen` TEXT NOT NULL, `bodegaOrigenId` INTEGER NOT NULL, `bodegaDestinoId` INTEGER NOT NULL, `solicitadoPor` TEXT NOT NULL, `asignadoA` INTEGER NOT NULL, `estado` TEXT NOT NULL, `preparadoPor` INTEGER, `revisorId` INTEGER, `fecha` INTEGER NOT NULL, `sucursalDestinoId` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "codigo",
+            "columnName": "codigo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "origen",
+            "columnName": "origen",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaOrigenId",
+            "columnName": "bodegaOrigenId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaDestinoId",
+            "columnName": "bodegaDestinoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "solicitadoPor",
+            "columnName": "solicitadoPor",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "asignadoA",
+            "columnName": "asignadoA",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estado",
+            "columnName": "estado",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "preparadoPor",
+            "columnName": "preparadoPor",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "revisorId",
+            "columnName": "revisorId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalDestinoId",
+            "columnName": "sucursalDestinoId",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_cajas_codigo",
+            "unique": true,
+            "columnNames": [
+              "codigo"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_cajas_codigo` ON `${TABLE_NAME}` (`codigo`)"
+          }
+        ]
+      },
+      {
+        "tableName": "detalle_caja",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cajaId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `cantidadEsperada` INTEGER NOT NULL, `cantidadVerificada` INTEGER NOT NULL, `posicionId` INTEGER, `cantidadRecibida` INTEGER NOT NULL DEFAULT 0, `posicionDestinoId` INTEGER, `cantidadContadaFisica` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cajaId",
+            "columnName": "cajaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidadEsperada",
+            "columnName": "cantidadEsperada",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidadVerificada",
+            "columnName": "cantidadVerificada",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "cantidadRecibida",
+            "columnName": "cantidadRecibida",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "posicionDestinoId",
+            "columnName": "posicionDestinoId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "cantidadContadaFisica",
+            "columnName": "cantidadContadaFisica",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_detalle_caja_cajaId_productoId",
+            "unique": true,
+            "columnNames": [
+              "cajaId",
+              "productoId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_detalle_caja_cajaId_productoId` ON `${TABLE_NAME}` (`cajaId`, `productoId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "eventos_caja",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cajaId` INTEGER NOT NULL, `usuarioId` INTEGER NOT NULL, `accion` TEXT NOT NULL, `observacion` TEXT NOT NULL, `fecha` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cajaId",
+            "columnName": "cajaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usuarioId",
+            "columnName": "usuarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accion",
+            "columnName": "accion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "observacion",
+            "columnName": "observacion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "incidencias_caja",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cajaId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `esperado` INTEGER NOT NULL, `contado` INTEGER NOT NULL, `estado` TEXT NOT NULL, `fecha` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cajaId",
+            "columnName": "cajaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "esperado",
+            "columnName": "esperado",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contado",
+            "columnName": "contado",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estado",
+            "columnName": "estado",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "periodos_inventario",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `bodegaId` INTEGER NOT NULL, `asignadoA` INTEGER NOT NULL, `nombre` TEXT NOT NULL, `estado` TEXT NOT NULL, `fechaApertura` INTEGER NOT NULL, `inventarioBodegaId` INTEGER, `verificacionFisicaPor` INTEGER, `fechaVerificacionFisica` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaId",
+            "columnName": "bodegaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "asignadoA",
+            "columnName": "asignadoA",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estado",
+            "columnName": "estado",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fechaApertura",
+            "columnName": "fechaApertura",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inventarioBodegaId",
+            "columnName": "inventarioBodegaId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "verificacionFisicaPor",
+            "columnName": "verificacionFisicaPor",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "fechaVerificacionFisica",
+            "columnName": "fechaVerificacionFisica",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "lineas_inventario",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `periodoId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `cantidadContada` INTEGER NOT NULL, `stockAlEntregar` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "periodoId",
+            "columnName": "periodoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidadContada",
+            "columnName": "cantidadContada",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stockAlEntregar",
+            "columnName": "stockAlEntregar",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_lineas_inventario_periodoId_productoId_posicionId",
+            "unique": true,
+            "columnNames": [
+              "periodoId",
+              "productoId",
+              "posicionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_lineas_inventario_periodoId_productoId_posicionId` ON `${TABLE_NAME}` (`periodoId`, `productoId`, `posicionId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "preparaciones_caja",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cajaId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `cantidad` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cajaId",
+            "columnName": "cajaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_preparaciones_caja_cajaId_productoId_posicionId",
+            "unique": true,
+            "columnNames": [
+              "cajaId",
+              "productoId",
+              "posicionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_preparaciones_caja_cajaId_productoId_posicionId` ON `${TABLE_NAME}` (`cajaId`, `productoId`, `posicionId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "borrador_inventario",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `periodoId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `cantidad` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "periodoId",
+            "columnName": "periodoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_borrador_inventario_periodoId_productoId_posicionId",
+            "unique": true,
+            "columnNames": [
+              "periodoId",
+              "productoId",
+              "posicionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_borrador_inventario_periodoId_productoId_posicionId` ON `${TABLE_NAME}` (`periodoId`, `productoId`, `posicionId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "ajustes_inventario",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `periodoId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `stockAnterior` INTEGER NOT NULL, `stockNuevo` INTEGER NOT NULL, `revisadoPor` INTEGER NOT NULL, `fecha` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "periodoId",
+            "columnName": "periodoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stockAnterior",
+            "columnName": "stockAnterior",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stockNuevo",
+            "columnName": "stockNuevo",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "revisadoPor",
+            "columnName": "revisadoPor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_ajustes_inventario_periodoId_productoId_posicionId",
+            "unique": true,
+            "columnNames": [
+              "periodoId",
+              "productoId",
+              "posicionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_ajustes_inventario_periodoId_productoId_posicionId` ON `${TABLE_NAME}` (`periodoId`, `productoId`, `posicionId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "bodega_sucursal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`bodegaId` INTEGER NOT NULL, `sucursalId` INTEGER NOT NULL, PRIMARY KEY(`bodegaId`, `sucursalId`))",
+        "fields": [
+          {
+            "fieldPath": "bodegaId",
+            "columnName": "bodegaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "bodegaId",
+            "sucursalId"
+          ]
+        }
+      },
+      {
+        "tableName": "existencias_tienda",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sucursalId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `cantidad` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_existencias_tienda_sucursalId_productoId",
+            "unique": true,
+            "columnNames": [
+              "sucursalId",
+              "productoId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_existencias_tienda_sucursalId_productoId` ON `${TABLE_NAME}` (`sucursalId`, `productoId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "inventarios_bodega",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `bodegaId` INTEGER NOT NULL, `nombre` TEXT NOT NULL, `estado` TEXT NOT NULL, `fechaApertura` INTEGER NOT NULL, `revisadoPor` INTEGER, `campaniaId` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaId",
+            "columnName": "bodegaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estado",
+            "columnName": "estado",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fechaApertura",
+            "columnName": "fechaApertura",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "revisadoPor",
+            "columnName": "revisadoPor",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "campaniaId",
+            "columnName": "campaniaId",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_inventarios_bodega_bodegaId_nombre",
+            "unique": true,
+            "columnNames": [
+              "bodegaId",
+              "nombre"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_inventarios_bodega_bodegaId_nombre` ON `${TABLE_NAME}` (`bodegaId`, `nombre`)"
+          }
+        ]
+      },
+      {
+        "tableName": "zonas_inventario",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`inventarioId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `operadorId` INTEGER NOT NULL, `periodoId` INTEGER NOT NULL, PRIMARY KEY(`inventarioId`, `posicionId`))",
+        "fields": [
+          {
+            "fieldPath": "inventarioId",
+            "columnName": "inventarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "operadorId",
+            "columnName": "operadorId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "periodoId",
+            "columnName": "periodoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "inventarioId",
+            "posicionId"
+          ]
+        }
+      },
+      {
+        "tableName": "referencias_inventario",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`inventarioId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `cantidad` INTEGER NOT NULL, PRIMARY KEY(`inventarioId`, `productoId`, `posicionId`))",
+        "fields": [
+          {
+            "fieldPath": "inventarioId",
+            "columnName": "inventarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "inventarioId",
+            "productoId",
+            "posicionId"
+          ]
+        }
+      },
+      {
+        "tableName": "usuario_sucursal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`usuarioId` INTEGER NOT NULL, `sucursalId` INTEGER NOT NULL, PRIMARY KEY(`usuarioId`, `sucursalId`))",
+        "fields": [
+          {
+            "fieldPath": "usuarioId",
+            "columnName": "usuarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "usuarioId",
+            "sucursalId"
+          ]
+        }
+      },
+      {
+        "tableName": "movimientos_tienda",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `usuarioId` INTEGER NOT NULL, `sucursalId` INTEGER NOT NULL, `cajaId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `cantidad` INTEGER NOT NULL, `fecha` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usuarioId",
+            "columnName": "usuarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cajaId",
+            "columnName": "cajaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_movimientos_tienda_cajaId_productoId",
+            "unique": false,
+            "columnNames": [
+              "cajaId",
+              "productoId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_movimientos_tienda_cajaId_productoId` ON `${TABLE_NAME}` (`cajaId`, `productoId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "posiciones_tienda",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sucursalId` INTEGER NOT NULL, `codigo` TEXT NOT NULL, `zona` TEXT NOT NULL, `categoria` TEXT NOT NULL, `activa` INTEGER NOT NULL, `nombre` TEXT NOT NULL DEFAULT '', `tipo` TEXT NOT NULL DEFAULT 'ESTANTERIA', `padreId` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "codigo",
+            "columnName": "codigo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "zona",
+            "columnName": "zona",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categoria",
+            "columnName": "categoria",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activa",
+            "columnName": "activa",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "'ESTANTERIA'"
+          },
+          {
+            "fieldPath": "padreId",
+            "columnName": "padreId",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_posiciones_tienda_sucursalId_codigo",
+            "unique": true,
+            "columnNames": [
+              "sucursalId",
+              "codigo"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_posiciones_tienda_sucursalId_codigo` ON `${TABLE_NAME}` (`sucursalId`, `codigo`)"
+          }
+        ]
+      },
+      {
+        "tableName": "existencias_ubicacion_tienda",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sucursalId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `cantidad` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_existencias_ubicacion_tienda_sucursalId_productoId_posicionId",
+            "unique": true,
+            "columnNames": [
+              "sucursalId",
+              "productoId",
+              "posicionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_existencias_ubicacion_tienda_sucursalId_productoId_posicionId` ON `${TABLE_NAME}` (`sucursalId`, `productoId`, `posicionId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "movimientos_ubicacion_tienda",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `usuarioId` INTEGER NOT NULL, `sucursalId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `posicionOrigenId` INTEGER, `posicionDestinoId` INTEGER NOT NULL, `cantidad` INTEGER NOT NULL, `tipo` TEXT NOT NULL, `cajaId` INTEGER, `fecha` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usuarioId",
+            "columnName": "usuarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionOrigenId",
+            "columnName": "posicionOrigenId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "posicionDestinoId",
+            "columnName": "posicionDestinoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cajaId",
+            "columnName": "cajaId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "solicitudes_reposicion",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sucursalId` INTEGER NOT NULL, `bodegaId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `cantidad` INTEGER NOT NULL, `solicitadoPor` INTEGER NOT NULL, `fecha` INTEGER NOT NULL, `estado` TEXT NOT NULL, `cajaId` INTEGER, `loteId` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaId",
+            "columnName": "bodegaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "solicitadoPor",
+            "columnName": "solicitadoPor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estado",
+            "columnName": "estado",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cajaId",
+            "columnName": "cajaId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "loteId",
+            "columnName": "loteId",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_solicitudes_reposicion_sucursalId_estado",
+            "unique": false,
+            "columnNames": [
+              "sucursalId",
+              "estado"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_solicitudes_reposicion_sucursalId_estado` ON `${TABLE_NAME}` (`sucursalId`, `estado`)"
+          }
+        ]
+      },
+      {
+        "tableName": "configuracion_sucursal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sucursalId` INTEGER NOT NULL, `bodegaPrincipalId` INTEGER, PRIMARY KEY(`sucursalId`))",
+        "fields": [
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaPrincipalId",
+            "columnName": "bodegaPrincipalId",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "sucursalId"
+          ]
+        }
+      },
+      {
+        "tableName": "minimos_sucursal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sucursalId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `minimo` INTEGER NOT NULL, PRIMARY KEY(`sucursalId`, `productoId`))",
+        "fields": [
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "minimo",
+            "columnName": "minimo",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "sucursalId",
+            "productoId"
+          ]
+        }
+      },
+      {
+        "tableName": "eventos_administracion",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sucursalId` INTEGER NOT NULL, `usuarioId` INTEGER NOT NULL, `accion` TEXT NOT NULL, `detalle` TEXT NOT NULL, `fecha` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usuarioId",
+            "columnName": "usuarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accion",
+            "columnName": "accion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "detalle",
+            "columnName": "detalle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_eventos_administracion_sucursalId",
+            "unique": false,
+            "columnNames": [
+              "sucursalId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_eventos_administracion_sucursalId` ON `${TABLE_NAME}` (`sucursalId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "solicitudes_externas",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sucursalId` INTEGER NOT NULL, `bodegaId` INTEGER NOT NULL, `solicitanteId` INTEGER NOT NULL, `motivo` TEXT NOT NULL, `estado` TEXT NOT NULL, `fecha` INTEGER NOT NULL, `fechaRevision` INTEGER, `revisadoPor` INTEGER, `fechaDecision` INTEGER, `decididoPor` INTEGER, `observacion` TEXT NOT NULL, `entregaCajaId` INTEGER, `proveedorCotizado` TEXT NOT NULL DEFAULT '')",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaId",
+            "columnName": "bodegaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "solicitanteId",
+            "columnName": "solicitanteId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "motivo",
+            "columnName": "motivo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estado",
+            "columnName": "estado",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fechaRevision",
+            "columnName": "fechaRevision",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "revisadoPor",
+            "columnName": "revisadoPor",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "fechaDecision",
+            "columnName": "fechaDecision",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "decididoPor",
+            "columnName": "decididoPor",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "observacion",
+            "columnName": "observacion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entregaCajaId",
+            "columnName": "entregaCajaId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "proveedorCotizado",
+            "columnName": "proveedorCotizado",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_solicitudes_externas_sucursalId_estado",
+            "unique": false,
+            "columnNames": [
+              "sucursalId",
+              "estado"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_solicitudes_externas_sucursalId_estado` ON `${TABLE_NAME}` (`sucursalId`, `estado`)"
+          },
+          {
+            "name": "index_solicitudes_externas_bodegaId",
+            "unique": false,
+            "columnNames": [
+              "bodegaId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_solicitudes_externas_bodegaId` ON `${TABLE_NAME}` (`bodegaId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "lineas_solicitud_externa",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `solicitudId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `cantidad` INTEGER NOT NULL, `precioUnitarioCotizado` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "solicitudId",
+            "columnName": "solicitudId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "precioUnitarioCotizado",
+            "columnName": "precioUnitarioCotizado",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_lineas_solicitud_externa_solicitudId",
+            "unique": false,
+            "columnNames": [
+              "solicitudId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lineas_solicitud_externa_solicitudId` ON `${TABLE_NAME}` (`solicitudId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "eventos_solicitud_externa",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `solicitudId` INTEGER NOT NULL, `usuarioId` INTEGER NOT NULL, `accion` TEXT NOT NULL, `detalle` TEXT NOT NULL, `fecha` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "solicitudId",
+            "columnName": "solicitudId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usuarioId",
+            "columnName": "usuarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accion",
+            "columnName": "accion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "detalle",
+            "columnName": "detalle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_eventos_solicitud_externa_solicitudId",
+            "unique": false,
+            "columnNames": [
+              "solicitudId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_eventos_solicitud_externa_solicitudId` ON `${TABLE_NAME}` (`solicitudId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "informes_inventario",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `inventarioId` INTEGER NOT NULL, `sucursalId` INTEGER NOT NULL, `bodegaId` INTEGER NOT NULL, `sucursalNombre` TEXT NOT NULL, `bodegaNombre` TEXT NOT NULL, `nombre` TEXT NOT NULL, `estadoCierre` TEXT NOT NULL, `fechaApertura` INTEGER NOT NULL, `fechaCierre` INTEGER NOT NULL, `cerradoPor` INTEGER NOT NULL, `posiciones` INTEGER NOT NULL, `productosContados` INTEGER NOT NULL, `productosSinContar` INTEGER NOT NULL, `lineasConDiferencia` INTEGER NOT NULL, `unidadesSistema` INTEGER NOT NULL, `unidadesContadas` INTEGER NOT NULL, `ajustesAplicados` INTEGER NOT NULL, `estadoRevision` TEXT NOT NULL, `revisadoPor` INTEGER, `fechaRevision` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inventarioId",
+            "columnName": "inventarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaId",
+            "columnName": "bodegaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalNombre",
+            "columnName": "sucursalNombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bodegaNombre",
+            "columnName": "bodegaNombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estadoCierre",
+            "columnName": "estadoCierre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fechaApertura",
+            "columnName": "fechaApertura",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fechaCierre",
+            "columnName": "fechaCierre",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cerradoPor",
+            "columnName": "cerradoPor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posiciones",
+            "columnName": "posiciones",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productosContados",
+            "columnName": "productosContados",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productosSinContar",
+            "columnName": "productosSinContar",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lineasConDiferencia",
+            "columnName": "lineasConDiferencia",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unidadesSistema",
+            "columnName": "unidadesSistema",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unidadesContadas",
+            "columnName": "unidadesContadas",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ajustesAplicados",
+            "columnName": "ajustesAplicados",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estadoRevision",
+            "columnName": "estadoRevision",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "revisadoPor",
+            "columnName": "revisadoPor",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "fechaRevision",
+            "columnName": "fechaRevision",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_informes_inventario_inventarioId",
+            "unique": true,
+            "columnNames": [
+              "inventarioId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_informes_inventario_inventarioId` ON `${TABLE_NAME}` (`inventarioId`)"
+          },
+          {
+            "name": "index_informes_inventario_estadoRevision_fechaCierre",
+            "unique": false,
+            "columnNames": [
+              "estadoRevision",
+              "fechaCierre"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_informes_inventario_estadoRevision_fechaCierre` ON `${TABLE_NAME}` (`estadoRevision`, `fechaCierre`)"
+          }
+        ]
+      },
+      {
+        "tableName": "detalles_informe_inventario",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `informeId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `codigo` TEXT NOT NULL, `producto` TEXT NOT NULL, `posicion` TEXT NOT NULL, `cantidadSistema` INTEGER NOT NULL, `cantidadContada` INTEGER, `ajusteAplicado` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "informeId",
+            "columnName": "informeId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "codigo",
+            "columnName": "codigo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "producto",
+            "columnName": "producto",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicion",
+            "columnName": "posicion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidadSistema",
+            "columnName": "cantidadSistema",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidadContada",
+            "columnName": "cantidadContada",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "ajusteAplicado",
+            "columnName": "ajusteAplicado",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_detalles_informe_inventario_informeId",
+            "unique": false,
+            "columnNames": [
+              "informeId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_detalles_informe_inventario_informeId` ON `${TABLE_NAME}` (`informeId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "salidas_tienda",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sucursalId` INTEGER NOT NULL, `usuarioId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `cantidad` INTEGER NOT NULL, `tipo` TEXT NOT NULL, `motivo` TEXT NOT NULL, `fecha` INTEGER NOT NULL, `precioUnitarioVentaClp` INTEGER, `totalVentaClp` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usuarioId",
+            "columnName": "usuarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidad",
+            "columnName": "cantidad",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "motivo",
+            "columnName": "motivo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "precioUnitarioVentaClp",
+            "columnName": "precioUnitarioVentaClp",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "totalVentaClp",
+            "columnName": "totalVentaClp",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "inventarios_tienda",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sucursalId` INTEGER NOT NULL, `nombre` TEXT NOT NULL, `estado` TEXT NOT NULL, `fechaApertura` INTEGER NOT NULL, `cerradoPor` INTEGER, `fechaCierre` INTEGER, `estadoRevision` TEXT NOT NULL, `revisadoPor` INTEGER, `fechaRevision` INTEGER, `motivoCierre` TEXT NOT NULL, `verificacionVaciaPor` INTEGER, `fechaVerificacionVacia` INTEGER, `campaniaId` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estado",
+            "columnName": "estado",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fechaApertura",
+            "columnName": "fechaApertura",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cerradoPor",
+            "columnName": "cerradoPor",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "fechaCierre",
+            "columnName": "fechaCierre",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "estadoRevision",
+            "columnName": "estadoRevision",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "revisadoPor",
+            "columnName": "revisadoPor",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "fechaRevision",
+            "columnName": "fechaRevision",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "motivoCierre",
+            "columnName": "motivoCierre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "verificacionVaciaPor",
+            "columnName": "verificacionVaciaPor",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "fechaVerificacionVacia",
+            "columnName": "fechaVerificacionVacia",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "campaniaId",
+            "columnName": "campaniaId",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_inventarios_tienda_sucursalId",
+            "unique": false,
+            "columnNames": [
+              "sucursalId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_inventarios_tienda_sucursalId` ON `${TABLE_NAME}` (`sucursalId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "lineas_inventario_tienda",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `inventarioId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `stockInicio` INTEGER NOT NULL, `cantidadContada` INTEGER, `contadoPor` INTEGER, `fechaConteo` INTEGER, `codigoProductoCierre` TEXT, `nombreProductoCierre` TEXT, `rutaUbicacionCierre` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inventarioId",
+            "columnName": "inventarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "stockInicio",
+            "columnName": "stockInicio",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidadContada",
+            "columnName": "cantidadContada",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "contadoPor",
+            "columnName": "contadoPor",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "fechaConteo",
+            "columnName": "fechaConteo",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "codigoProductoCierre",
+            "columnName": "codigoProductoCierre",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "nombreProductoCierre",
+            "columnName": "nombreProductoCierre",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rutaUbicacionCierre",
+            "columnName": "rutaUbicacionCierre",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_lineas_inventario_tienda_inventarioId_productoId_posicionId",
+            "unique": true,
+            "columnNames": [
+              "inventarioId",
+              "productoId",
+              "posicionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_lineas_inventario_tienda_inventarioId_productoId_posicionId` ON `${TABLE_NAME}` (`inventarioId`, `productoId`, `posicionId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "eventos_conteo_tienda",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `inventarioId` INTEGER NOT NULL, `lineaId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `usuarioId` INTEGER NOT NULL, `cantidadAnterior` INTEGER, `cantidadNueva` INTEGER NOT NULL, `tipo` TEXT NOT NULL, `fecha` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inventarioId",
+            "columnName": "inventarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lineaId",
+            "columnName": "lineaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usuarioId",
+            "columnName": "usuarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidadAnterior",
+            "columnName": "cantidadAnterior",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "cantidadNueva",
+            "columnName": "cantidadNueva",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_eventos_conteo_tienda_inventarioId_fecha",
+            "unique": false,
+            "columnNames": [
+              "inventarioId",
+              "fecha"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_eventos_conteo_tienda_inventarioId_fecha` ON `${TABLE_NAME}` (`inventarioId`, `fecha`)"
+          }
+        ]
+      },
+      {
+        "tableName": "zonas_conteo_tienda",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`inventarioId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `asignadoA` INTEGER NOT NULL, `confirmadoPor` INTEGER, `fechaConfirmacion` INTEGER, PRIMARY KEY(`inventarioId`, `posicionId`))",
+        "fields": [
+          {
+            "fieldPath": "inventarioId",
+            "columnName": "inventarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "asignadoA",
+            "columnName": "asignadoA",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "confirmadoPor",
+            "columnName": "confirmadoPor",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "fechaConfirmacion",
+            "columnName": "fechaConfirmacion",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "inventarioId",
+            "posicionId"
+          ]
+        }
+      },
+      {
+        "tableName": "verificaciones_estante_vacio",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tipo` TEXT NOT NULL, `inventarioId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `usuarioId` INTEGER NOT NULL, `fecha` INTEGER NOT NULL, PRIMARY KEY(`tipo`, `inventarioId`, `posicionId`))",
+        "fields": [
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inventarioId",
+            "columnName": "inventarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usuarioId",
+            "columnName": "usuarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fecha",
+            "columnName": "fecha",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "tipo",
+            "inventarioId",
+            "posicionId"
+          ]
+        }
+      },
+      {
+        "tableName": "campanias_mensuales",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tipo` TEXT NOT NULL, `ubicacionId` INTEGER NOT NULL, `sucursalId` INTEGER NOT NULL, `mes` TEXT NOT NULL, `estado` TEXT NOT NULL, `fechaInicio` INTEGER NOT NULL, `fechaFinal` INTEGER, `revision` TEXT NOT NULL, `revisadaPor` INTEGER, `fechaRevision` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ubicacionId",
+            "columnName": "ubicacionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mes",
+            "columnName": "mes",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estado",
+            "columnName": "estado",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fechaInicio",
+            "columnName": "fechaInicio",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fechaFinal",
+            "columnName": "fechaFinal",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "revision",
+            "columnName": "revision",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "revisadaPor",
+            "columnName": "revisadaPor",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "fechaRevision",
+            "columnName": "fechaRevision",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_campanias_mensuales_tipo_ubicacionId_mes",
+            "unique": true,
+            "columnNames": [
+              "tipo",
+              "ubicacionId",
+              "mes"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_campanias_mensuales_tipo_ubicacionId_mes` ON `${TABLE_NAME}` (`tipo`, `ubicacionId`, `mes`)"
+          }
+        ]
+      },
+      {
+        "tableName": "zonas_campania",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`campaniaId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `ruta` TEXT NOT NULL, `estado` TEXT NOT NULL, `inventarioId` INTEGER, `fechaConteo` INTEGER, PRIMARY KEY(`campaniaId`, `posicionId`))",
+        "fields": [
+          {
+            "fieldPath": "campaniaId",
+            "columnName": "campaniaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ruta",
+            "columnName": "ruta",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estado",
+            "columnName": "estado",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inventarioId",
+            "columnName": "inventarioId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "fechaConteo",
+            "columnName": "fechaConteo",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "campaniaId",
+            "posicionId"
+          ]
+        }
+      },
+      {
+        "tableName": "detalles_campania",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `campaniaId` INTEGER NOT NULL, `inventarioId` INTEGER NOT NULL, `posicionId` INTEGER NOT NULL, `codigo` TEXT NOT NULL, `producto` TEXT NOT NULL, `ruta` TEXT NOT NULL, `cantidadSistema` INTEGER NOT NULL, `cantidadContada` INTEGER, `ajusteAplicado` INTEGER NOT NULL, `fechaCierre` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "campaniaId",
+            "columnName": "campaniaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inventarioId",
+            "columnName": "inventarioId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicionId",
+            "columnName": "posicionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "codigo",
+            "columnName": "codigo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "producto",
+            "columnName": "producto",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ruta",
+            "columnName": "ruta",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidadSistema",
+            "columnName": "cantidadSistema",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cantidadContada",
+            "columnName": "cantidadContada",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "ajusteAplicado",
+            "columnName": "ajusteAplicado",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fechaCierre",
+            "columnName": "fechaCierre",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_detalles_campania_campaniaId_posicionId",
+            "unique": false,
+            "columnNames": [
+              "campaniaId",
+              "posicionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_detalles_campania_campaniaId_posicionId` ON `${TABLE_NAME}` (`campaniaId`, `posicionId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "precios_venta_sucursal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sucursalId` INTEGER NOT NULL, `productoId` INTEGER NOT NULL, `precioClp` INTEGER NOT NULL, `actualizadoPor` INTEGER NOT NULL, `fechaActualizacion` INTEGER NOT NULL, PRIMARY KEY(`sucursalId`, `productoId`))",
+        "fields": [
+          {
+            "fieldPath": "sucursalId",
+            "columnName": "sucursalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productoId",
+            "columnName": "productoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "precioClp",
+            "columnName": "precioClp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "actualizadoPor",
+            "columnName": "actualizadoPor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fechaActualizacion",
+            "columnName": "fechaActualizacion",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "sucursalId",
+            "productoId"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1ba30b8e70003308502522fcecbf03b0')"
+    ]
+  }
+}
